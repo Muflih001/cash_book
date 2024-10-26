@@ -1,5 +1,5 @@
 import 'package:cash_book/views/homeScreen/homeScreen.dart';
-import 'package:cash_book/views/registerScreen/loginScreen/loginScreen.dart';
+import 'package:cash_book/views/loginScreen/loginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

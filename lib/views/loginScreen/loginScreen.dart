@@ -1,8 +1,11 @@
+import 'package:cash_book/controller/loginScreenController.dart';
+import 'package:cash_book/controller/registerScreenController.dart';
+import 'package:cash_book/utils/colorConstant.dart';
 import 'package:cash_book/views/homeScreen/homeScreen.dart';
 import 'package:cash_book/views/registerScreen/registerScreen.dart';
 //import 'package:connect_to_sql_server_directly/connect_to_sql_server_directly.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -20,82 +23,18 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _passwordController = TextEditingController();
   bool isPasswordVisible = false;
 
-  // Future<bool> connect() async {
-  //   try {
-  //     setState(() {
-  //       isLoading = true;
-  //     });
-
-  //     bool isConnected =
-  //         await _connectToSqlServerDirectlyPlugin.initializeConnection(
-  //       "192.168.0.175",
-  //       "Acompany",
-  //       "sa",
-  //       "Mlp09*&okn",
-  //     );
-
-  //     setState(() {
-  //       isLoading = false;
-  //     });
-
-  //     if (isConnected) {
-  //       print('Database connection successful');
-  //       return true;
-  //     } else {
-  //       print('Database connection failed');
-  //       return false;
-  //     }
-  //   } catch (e) {
-  //     setState(() {
-  //       isLoading = false;
-  //     });
-  //     print('Error during database connection: $e');
-  //     return false;
-  //   }
-  // }
-
-  // @override
-  // void initState() {
-  //   connect();
-  //   super.initState();
-  // }
-
-  // Method to validate and submit the form
-  Future<void> _submitForm() async {
-    setState(() {
-      isLoading = true;
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await context.read<RegisterScreenController>().sqlconnect();
     });
-    final prefs = await SharedPreferences.getInstance();
-    final storedUsername = prefs.getString('username');
-    final storedPassword = prefs.getString('password');
-    if (_emailController.text == storedUsername &&
-        _passwordController.text == storedPassword) {
-      await prefs.setBool('isLoggedIn', true);
-
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => HomeScreen(),
-        ),
-        (Route<dynamic> route) => false,
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          backgroundColor: Colors.red,
-          content: Text('Invalid username or password'),
-        ),
-      );
-    }
-    setState(() {
-      isLoading = false;
-    });
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 13, 71, 161),
+      backgroundColor: ColorConstants.Themecolor,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -111,17 +50,17 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
-                  Text(
+                  const Text(
                     'Login',
                     style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         'Don\'t have a company? ',
                         style: TextStyle(),
                       ),
@@ -130,11 +69,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => RegisterScreen(),
+                                builder: (context) => const RegisterScreen(),
                               ));
                           print('create button clicked');
                         },
-                        child: Text(
+                        child: const Text(
                           'Create',
                           style: TextStyle(
                             color: Color.fromARGB(255, 13, 71, 161),
@@ -144,14 +83,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(30.0),
                     child: Column(
                       children: [
-                        Align(
+                        const Align(
                           alignment: Alignment.topLeft,
                           child: Text(
                             'Email',
@@ -161,7 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         TextFormField(
                           controller: _emailController,
                           decoration: InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(
+                            contentPadding: const EdgeInsets.symmetric(
                                 vertical: 5, horizontal: 10),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10)),
@@ -179,10 +118,10 @@ class _LoginScreenState extends State<LoginScreen> {
                             }
                           },
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
-                        Align(
+                        const Align(
                           alignment: Alignment.topLeft,
                           child: Text(
                             'Password',
@@ -193,7 +132,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           controller: _passwordController,
                           decoration: InputDecoration(
                             focusColor: Colors.grey,
-                            contentPadding: EdgeInsets.symmetric(
+                            contentPadding: const EdgeInsets.symmetric(
                                 vertical: 5, horizontal: 10),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10)),
@@ -233,25 +172,28 @@ class _LoginScreenState extends State<LoginScreen> {
                                 });
                               },
                             ),
-                            Text("Rememer me"),
-                            Spacer(),
+                            const Text("Rememer me"),
+                            const Spacer(),
                             InkWell(
                                 onTap: () {
                                   print('forget button clicked');
                                 },
-                                child: Text(
+                                child: const Text(
                                   "Forgot Password ?",
                                   style: TextStyle(color: Colors.blue),
                                 ))
                           ],
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
                         InkWell(
                           onTap: () {
                             if (_formKey.currentState!.validate()) {
-                              _submitForm();
+                              context.read<LoginScreenController>().submitForm(
+                                  context,
+                                  _emailController.text,
+                                  _passwordController.text);
                             }
                           },
                           child: Container(
@@ -259,8 +201,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             width: double.infinity,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: Color.fromARGB(255, 13, 71, 161)),
-                            child: Center(
+                                color: ColorConstants.Themecolor),
+                            child: const Center(
                                 child: Text(
                               'Log In',
                               style: TextStyle(
@@ -272,7 +214,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                 ],

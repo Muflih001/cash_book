@@ -1,7 +1,7 @@
-import 'package:cash_book/views/registerScreen/loginScreen/loginScreen.dart';
-//import 'package:connect_to_sql_server_directly/connect_to_sql_server_directly.dart';
+import 'package:cash_book/controller/registerScreenController.dart';
+import 'package:cash_book/utils/colorConstant.dart';
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -15,83 +15,25 @@ class _RegisterScreenState extends State<RegisterScreen> {
   bool isLoading = false;
   bool rememberMe = false;
   bool isPasswordVisible = false;
-  //final _connectToSqlServerDirectlyPlugin = ConnectToSqlServerDirectly();
+
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _companyNameController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
-  late var isConnected;
-  // Future<bool> connect() async {
-  //   try {
-  //     setState(() {
-  //       isLoading = true;
-  //     });
 
-  //     isConnected =
-  //         await _connectToSqlServerDirectlyPlugin.initializeConnection(
-  //       "192.168.0.175",
-  //       "Acompany",
-  //       "sa",
-  //       "Mlp09*&okn",
-  //     );
-
-  //     setState(() {
-  //       isLoading = false;
-  //     });
-
-  //     if (isConnected) {
-  //       print('Database connection successful');
-  //       return true;
-  //     } else {
-  //       print('Database connection failed');
-  //       return false;
-  //     }
-  //   } catch (e) {
-  //     setState(() {
-  //       isLoading = false;
-  //     });
-  //     print('Error during database connection: $e');
-  //     return false;
-  //   }
-  // }
-
-  // @override
-  // void initState() {
-  //   connect();
-  //   super.initState();
-  // }
-
-  // Method to validate and submit the form
-  Future<void> _submitForm() async {
-    if (_formKey.currentState!.validate()) {
-      String companyName = _companyNameController.text;
-      String username = _emailController.text;
-      String address = _addressController.text;
-      String phone = _phoneNumberController.text;
-      String password = _passwordController.text;
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString('companyName', companyName);
-      await prefs.setString('username', username);
-      await prefs.setString('password', password);
-      await prefs.setString('address', address);
-      await prefs.setString('phone', phone);
-      Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => LoginScreen(),
-          ));
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: Colors.red,
-          content: Text("Invalid username or Password")));
-    }
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+      await context.read<RegisterScreenController>().sqlconnect();
+    });
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 13, 71, 161),
+      backgroundColor: ColorConstants.Themecolor,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -107,50 +49,50 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 mainAxisSize: MainAxisSize.min,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
-                  Text(
+                  const Text(
                     'Sign Up',
                     style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(
+                      const Text(
                         'Already have an account? ',
                         style: TextStyle(),
                       ),
                       InkWell(
                         onTap: () {
                           Navigator.pop(context);
-                          print('create button clicked');
+                          print('login button clicked');
                         },
-                        child: Text(
+                        child: const Text(
                           'Login',
                           style: TextStyle(
-                            color: Color.fromARGB(255, 13, 71, 161),
+                            color: ColorConstants.Themecolor,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                   Padding(
                     padding: const EdgeInsets.all(30.0),
                     child: Column(
                       children: [
-                        Align(
+                        const Align(
                           alignment: Alignment.topLeft,
                           child: Text('Company Name', style: TextStyle()),
                         ),
                         TextFormField(
                           controller: _companyNameController,
                           decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 5, horizontal: 10),
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10)),
@@ -163,11 +105,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             return null;
                           },
                         ),
-                        SizedBox(height: 15),
+                        const SizedBox(height: 15),
 
                         // Address Field
 
-                        Align(
+                        const Align(
                           alignment: Alignment.topLeft,
                           child: Text(
                             'Email',
@@ -177,7 +119,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         TextFormField(
                           controller: _emailController,
                           decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 5, horizontal: 10),
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10)),
@@ -194,18 +136,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             }
                           },
                         ),
-                        SizedBox(
+                        const SizedBox(
                           height: 15,
                         ),
 
-                        Align(
+                        const Align(
                           alignment: Alignment.topLeft,
                           child: Text('Address', style: TextStyle()),
                         ),
                         TextFormField(
                           controller: _addressController,
                           decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 5, horizontal: 10),
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10)),
@@ -218,16 +160,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             return null;
                           },
                         ),
-                        SizedBox(height: 15),
+                        const SizedBox(height: 15),
 
-                        Align(
+                        const Align(
                           alignment: Alignment.topLeft,
                           child: Text('Phone Number', style: TextStyle()),
                         ),
                         TextFormField(
                           controller: _phoneNumberController,
                           decoration: InputDecoration(
-                              contentPadding: EdgeInsets.symmetric(
+                              contentPadding: const EdgeInsets.symmetric(
                                   vertical: 5, horizontal: 10),
                               border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10)),
@@ -241,8 +183,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             return null;
                           },
                         ),
-                        SizedBox(height: 15),
-                        Align(
+                        const SizedBox(height: 15),
+                        const Align(
                           alignment: Alignment.topLeft,
                           child: Text(
                             'Password',
@@ -253,7 +195,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           controller: _passwordController,
                           decoration: InputDecoration(
                             focusColor: Colors.grey,
-                            contentPadding: EdgeInsets.symmetric(
+                            contentPadding: const EdgeInsets.symmetric(
                                 vertical: 5, horizontal: 10),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10)),
@@ -284,11 +226,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           },
                         ),
 
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
 
                         InkWell(
                           onTap: () {
-                            _submitForm();
+                            context.read<RegisterScreenController>().submitForm(
+                                _companyNameController.text,
+                                _emailController.text,
+                                _passwordController.text,
+                                _addressController.text,
+                                _phoneNumberController.text,
+                                context);
+                            context.read<RegisterScreenController>().saveData(
+                                  _companyNameController.text,
+                                  _addressController.text,
+                                  _emailController.text,
+                                  _passwordController.text,
+                                  _phoneNumberController.text,
+                                );
                             print('login button clicked');
                           },
                           child: Container(
@@ -296,11 +251,11 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             width: double.infinity,
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
-                                color: Color.fromARGB(255, 13, 71, 161)),
+                                color: ColorConstants.Themecolor),
                             child: Center(
                                 child: isLoading
-                                    ? CircularProgressIndicator()
-                                    : Text(
+                                    ? const CircularProgressIndicator()
+                                    : const Text(
                                         'Register',
                                         style: TextStyle(
                                             color: Colors.white,
@@ -311,7 +266,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 10,
                   ),
                 ],

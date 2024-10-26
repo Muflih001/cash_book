@@ -1,3 +1,4 @@
+import 'package:cash_book/utils/colorConstant.dart';
 import 'package:cash_book/views/homeScreen/widgets/TransactionDetailCard.dart';
 import 'package:cash_book/views/homeScreen/widgets/categoryContainer.dart';
 import 'package:cash_book/views/homeScreen/widgets/drawerWidget.dart';
@@ -24,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromRGBO(0, 8, 180, 1),
+      backgroundColor: ColorConstants.Themecolor,
       key: _scaffoldKey,
       appBar: AppBar(
         leading: IconButton(
@@ -41,7 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
               color: Colors.white, fontSize: 15, fontWeight: FontWeight.bold),
         ),
         centerTitle: true,
-        backgroundColor: const Color.fromRGBO(0, 8, 180, 1),
+        backgroundColor: ColorConstants.Themecolor,
         actions: [
           IconButton(
               onPressed: () {},
@@ -64,7 +65,8 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Stack(
             children: [
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                 width: double.infinity,
                 color: Colors.grey[100],
                 child: Column(
@@ -163,7 +165,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   time: "05:00 PM",
                                   cashIn: "0000",
                                   cashOut: "0000"),
-                              separatorBuilder: (context, index) => const SizedBox(
+                              separatorBuilder: (context, index) =>
+                                  const SizedBox(
                                     height: 10,
                                   ),
                               itemCount: 2))

@@ -1,5 +1,6 @@
 import 'package:cash_book/controller/homeScreenController.dart';
-import 'package:cash_book/views/registerScreen/loginScreen/loginScreen.dart';
+import 'package:cash_book/utils/colorConstant.dart';
+import 'package:cash_book/views/loginScreen/loginScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +15,7 @@ class DrawerWidget extends StatelessWidget {
           children: <Widget>[
             const DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color:ColorConstants.Themecolor,
               ),
               child: Text('Drawer Header'),
             ),
